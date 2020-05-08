@@ -1,5 +1,6 @@
 <main>
     <h1>{{pageTitle}}</h1>
+
     {{#if hasProducts}}
     <div class="grid">
         {{#each products}}
@@ -8,10 +9,10 @@
                 <h1 class="product__title">{{this.title}}</h1>
             </header>
             <div class="card__image">
-                <img src="https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png" alt="A Book">
+                <img src={{this.imageURL}} alt="A Book">
             </div>
             <div class="card__content">
-                <h2 class="product__price">{{this.price}}</h2>
+                <h2 class="product__price">£{{this.price}}</h2>
                 <p class="product__description">{{this.description}}
                 </p>
             </div>
