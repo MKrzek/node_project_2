@@ -11,7 +11,9 @@ const getAddProduct = (req, res, next) => {
 };
 
 const postAddProduct = (req, res, next) => {
-  const product = new Product(req.body.title);
+  const { title, price, imageURL, description } = req.body;
+  const product = new Product(price, title, imageURL, description);
+  console.log('produyct', product);
   product.save();
   res.redirect('/');
 };
@@ -30,7 +32,7 @@ const getAllProducts = (req, res, next) => {
       pageTitle: 'Admin All Products',
       path: '/admin/products',
       hasProducts: products.length > 0,
-      activeShop: true,
+      activeAdminProduct: true,
     });
   });
 };
