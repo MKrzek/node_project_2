@@ -1,34 +1,46 @@
 
 .product-form{
-    width: 20rem;
+    width: 30rem;
     max-width: 90%;
     margin: auto;
 }
 
 .form-control{
     margin: 1rem 0;
-    width: 100%
+    /* width: 100% */
+    line-height: 2.25rem;
+    font-size: 1.2rem;
+    margin-bottom: 1.4rem;
 }
 
 .form-control label,
-.form-control input{
+.form-control input,
+.form-control textarea{
     display: block;
-
+    width: 100%;
+    margin-bottom: 0.25rem;
 }
-.form-control input{
-    border: 2px solid darkseagreen;
+
+
+.form-control input,
+.form-control textarea{
+    border: 3px solid darkseagreen;
     font:inherit;
     border-radius: 2px;
 }
+
 button{
     font: inherit;
-    border: 2px solid darkseagreen;
+    border: 3px solid darkseagreen;
     color: dodgerblue;
     background: white;
     border-radius: 3px;
     cursor: pointer;
+    padding:1.5rem;
+    font-size: 2rem;
 }
 button:hover,
 button:active{
     background-color: darkseagreen;
 }
+
