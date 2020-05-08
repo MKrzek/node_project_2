@@ -1,9 +1,10 @@
 const express = require('express');
-const { getAllProducts } = require('../controllers/admin');
+
 const {
   getAddProduct,
   postAddProduct,
   editProduct,
+  getAllProducts,
 } = require('../controllers/admin');
 
 const adminRoutes = express.Router();

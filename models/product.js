@@ -7,28 +7,32 @@ const p = path.join(
   'products.json'
 );
 
-const helperGetProductsFromFile = cb => {
+const getProductsFromFile = cb => {
   fs.readFile(p, (err, fileContent) => {
     if (err) {
-      return cb([]);
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
     }
-    return cb(JSON.parse(fileContent));
   });
 };
 
 module.exports = class Product {
-  constructor(title) {
+  constructor(price, title, imageURL, description) {
     this.title = title;
+    this.price = price;
+    this.imageURL = imageURL;
+    this.description = description;
   }
 
   save() {
-    helperGetProductsFromFile(products => {
+    getProductsFromFile(products => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => console.log(err));
     });
   }
 
   static fetchAll(cb) {
-    helperGetProductsFromFile(cb);
+    getProductsFromFile(cb);
   }
 };
