@@ -3,11 +3,11 @@
     width: 30rem;
     max-width: 90%;
     margin: auto;
+    display: block;
 }
 
 .form-control{
     margin: 1rem 0;
-    /* width: 100% */
     line-height: 2.25rem;
     font-size: 1.2rem;
     margin-bottom: 1.4rem;
