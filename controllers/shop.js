@@ -22,4 +22,16 @@ const getIndex = (req, res, next) => {
   });
 };
 
-module.exports = { getProducts, getIndex };
+const getProductDetails = (req, res, next) => {
+  const { productId } = req.params;
+  console.log('productId-in-controller', req.params);
+  Product.findById(productId, product => {
+    res.render('shop/product-detail', {
+      pageTitle: product.title,
+      path: '/products',
+      product,
+    });
+  });
+};
+
+module.exports = { getProducts, getIndex, getProductDetails };
