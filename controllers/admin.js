@@ -14,8 +14,15 @@ const postAddProduct = (req, res, next) => {
   const { title, price, imageURL, description } = req.body;
 
   const product = new Product(null, title, price, imageURL, description);
-  product.save();
-  res.redirect('/');
+  product
+    .save()
+    .then(result => {
+      console.log('Created Product');
+      res.redirect('/admin/products');
+    })
+    .catch(err => {
+      console.log('err', err);
+    });
 };
 
 const editProduct = (req, res, next) => {

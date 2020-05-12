@@ -6,6 +6,8 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const get404 = require('./controllers/error');
 
+const { mongoConnect } = require('./utils/database');
+
 const app = express();
 
 app.engine(
@@ -25,6 +27,9 @@ app.use(shopRoutes);
 
 app.use(get404);
 
-app.listen(3000, () => {
-  console.log('server running');
+mongoConnect(() => {
+  console.log('client');
+  app.listen(3000, () => {
+    console.log('server running');
+  });
 });
