@@ -2,6 +2,7 @@
   <h1>
     {{pageTitle}}
   </h1>
+  {{log "products in templae" products}}
   {{#if hasProducts}}
     <div class="grid">
       {{#each products}}
@@ -24,15 +25,14 @@
             </p>
           </div>
           <div class="card__actions">
-            {{log "idddd-in-template" this.id}}
-            <a href="/products/{{this.id}}" class="btn">
+            <a href="/products/{{this._id}}" class="btn">
               Details
             </a>
             <form action="/cart" method="POST">
               <button class="btn">
                 Add to Cart
               </button>
-              <input type="hidden" name="productId" value={{this.id}} />
+              <input type="hidden" name="productId" value={{this._id}} />
             </form>
           </div>
         </article>
