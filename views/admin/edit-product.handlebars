@@ -1,37 +1,47 @@
 <body>
+  {{log "edit-in-template" product}}
   <main>
-    <form class="product-form" action="/admin/add-product" method="POST">
+    <form class="product-form" action="/admin/edit-product" method="POST">
       <div class="form-control">
         <label for="title">
           Title
         </label>
-        <input id="title" type="text" name="title" />
+        <input id="title" type="text" name="title" value={{product.title}} />
       </div>
       <div class="form-control">
         <label for="price">
           Price
         </label>
-        <input id="price" type="number" name="price" step="0.01" />
+        <input
+          id="price"
+          type="number"
+          name="price"
+          step="0.01"
+          value={{product.price}}
+        />
       </div>
       <div class="form-control">
         <label for="imageURL">
           Image
         </label>
-        <input id="image" type="text" name="imageURL" />
+        <input
+          id="image"
+          type="text"
+          name="imageURL"
+          value={{product.imageURL}}
+        />
       </div>
       <div class="form-control">
         <label for="description">
           Description
         </label>
-        <textarea
-          id="description"
-          type="text"
-          name="description"
-          rows="5"
-        ></textarea>
+        <textarea id="description" type="text" name="description" rows="5">
+          {{product.description}}
+        </textarea>
       </div>
+      <input type="hidden" value={{product._id}} name="productId" />
       <button class="submit-button" type="submit">
-        Add product
+        Submit changes
       </button>
     </form>
   </main>
