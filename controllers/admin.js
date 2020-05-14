@@ -2,6 +2,7 @@ const Product = require('../models/product');
 
 const getAllProducts = (req, res, next) => {
   Product.find()
+    .populate('userId')
     .lean()
     .then(products => {
       res.render('admin/products', {
@@ -31,6 +32,7 @@ const postAddProduct = (req, res, next) => {
     price,
     imageURL,
     description,
+    userId: req.user._id,
   });
   product
     .save()
