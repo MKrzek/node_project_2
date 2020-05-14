@@ -14,10 +14,7 @@ class User {
     return db
       .collection('users')
       .insertOne(this)
-      .then(user => {
-        console.log('added-user', user);
-        return user;
-      })
+      .then(user => user)
       .catch(err => console.log('err', err));
   }
 
@@ -26,10 +23,7 @@ class User {
     return db
       .collection('users')
       .findOne({ _id: ObjectId(id) })
-      .then(user => {
-        console.log('user-found', user);
-        return user;
-      })
+      .then(user => user)
       .catch(err => console.log('err', err));
   }
 
@@ -113,9 +107,18 @@ class User {
           .catch(err => console.log('deleting-from-cart', err))
       );
   }
-  // getOrders() {
-  //     const db = getDb()
-  //     return db.collections('orders')
-  // }
+
+  getOrders() {
+    const db = getDb();
+    return db
+      .collection('orders')
+      .find({ 'user._id': ObjectId(this._id) })
+      .toArray()
+      .then(orders => {
+        console.log('orders', orders);
+        return orders;
+      })
+      .catch(err => console.log('err', err));
+  }
 }
 module.exports = User;

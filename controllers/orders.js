@@ -6,11 +6,19 @@ const createOrder = (req, res, next) => {
 };
 
 const getOrders = (req, res, next) => {
-  res.render('shop/orders', {
-    pageTitle: 'Orders',
-    path: '/orders',
-    activeOrders: true,
-  });
+  req.user
+    .getOrders()
+    .then(orders => {
+      res.render('shop/orders', {
+        pageTitle: 'Orders',
+        path: '/orders',
+        activeOrders: true,
+        orderCSS: true,
+        hasOrders: orders.length > 0,
+        orders,
+      });
+    })
+    .catch(err => console.log('err', err));
 };
 
 module.exports = { getOrders, createOrder };
