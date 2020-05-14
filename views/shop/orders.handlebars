@@ -13,9 +13,10 @@
             {{this._id}}
           </h1>
           <ul class="orders__products">
-            {{#each this.items}}
+            {{#each this.products}}
+              {{log "this" this}}
               <li class="order__products-item">
-                {{this.title}}
+                {{this.product.title}}
                 qty:
                 {{this.quantity}}
               </li>
