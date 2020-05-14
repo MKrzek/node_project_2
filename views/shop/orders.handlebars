@@ -1,1 +1,27 @@
-<h1>Orders </h1>
+<main>
+  {{log "orders" orders}}
+  {{#unless hasOrders}}
+    <h1>
+      No Orders Yet
+    </h1>
+  {{else}}
+    <ul class="orders">
+      {{#each orders}}
+        <li class="orders__item">
+          <h1>
+            Order -
+            {{this._id}}
+          </h1>
+          <ul class="orders__products">
+            {{#each this.items}}
+              <li class="order__products-item">
+                {{this.title}}
+                {{this.quantity}}
+              </li>
+            {{/each}}
+          </ul>
+        </li>
+      {{/each}}
+    </ul>
+  {{/unless}}
+</main>
