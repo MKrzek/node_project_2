@@ -1,15 +1,18 @@
 const Product = require('../models/product');
 
 const getProducts = (req, res, next) => {
-  Product.fetchAll().then(products => {
-    res.render('shop/product-list', {
-      products,
-      pageTitle: 'All Products',
-      path: '/products',
-      hasProducts: products && products.length > 0,
-      activeProducts: true,
+  Product.find()
+    .lean()
+    .then(products => {
+      console.log('prducts', products);
+      res.render('shop/product-list', {
+        products,
+        pageTitle: 'All Products',
+        path: '/products',
+        hasProducts: products && products.length > 0,
+        activeProducts: true,
+      });
     });
-  });
 };
 
 const getIndex = (req, res, next) => {
@@ -23,6 +26,7 @@ const getIndex = (req, res, next) => {
 const getProductDetails = (req, res, next) => {
   const { productId } = req.params;
   Product.findById(productId)
+    .lean()
     .then(product => {
       res.render('shop/product-detail', {
         pageTitle: product.title,
