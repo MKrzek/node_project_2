@@ -2,14 +2,25 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const expressHbs = require('express-handlebars');
 const User = require('./models/user');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 const get404 = require('./controllers/error');
 
+const MONGODB_URI =
+  'mongodb+srv://mkrzek:mkrzek@node-app-vgofl.mongodb.net/test?retryWrites=true&w=majority';
+
 const app = express();
+
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: 'sessions',
+});
 
 app.engine(
   'handlebars',
@@ -21,20 +32,26 @@ app.engine(
   })
 );
 app.set('view engine', 'handlebars');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  session({ secret: '34d3s', resave: false, saveUninitialized: false, store })
+);
 app.use((req, res, next) => {
-  User.findById('5ebd42bb32d6d912ee67c759')
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user)
     .then(user => {
       req.user = user;
       next();
     })
-    .catch(err => console.log('user-loggin-err', err));
+    .catch(err => console.log(err));
 });
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use(get404);
 
@@ -46,10 +63,7 @@ app.use(get404);
 // });
 
 mongoose
-  .connect(
-    'mongodb+srv://mkrzek:mkrzek@node-app-vgofl.mongodb.net/test?retryWrites=true&w=majority',
-    { useNewUrlParser: true }
-  )
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => {
     console.log('mongoose', result);
     User.findOne().then(user => {
@@ -69,4 +83,4 @@ mongoose
       console.log('server running');
     });
   })
-  .catch(err => console.log('err', err));
+  .catch(err => console.log('err-connection', err));
