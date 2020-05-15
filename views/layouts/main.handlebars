@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/css/cart.css">
     {{else if orderCSS}}
     <link rel="stylesheet" href="/css/orders.css">
+    {{else if loginCSS}}
+    <link rel='stylesheet' href="/css/auth.css">
     {{/if}}
 </head>
 
@@ -23,6 +25,7 @@
                 <li class="main-header__item"><a class="{{#if activeProducts}}active{{/if}}"
                         href="/products">Products</a>
                 </li>
+                {{#if isAuthenticated}}
                 <li class="main-header__item"><a class="{{#if activeCart}}active{{/if}}" href="/cart">My Cart</a>
                 </li>
                 <li class="main-header__item"><a class="{{#if activeOrders}}active{{/if}}" href="/orders"> Orders</a>
@@ -33,7 +36,21 @@
                 <li class="main-header__item"><a class="{{#if activeAdminProduct}}active{{/if}}"
                         href="/admin/products">Admin Products</a>
                 </li>
+                {{/if}}
 
+            </ul>
+            <ul class="main-header__item-list">
+            {{#unless isAuthenticated}}
+                <li class="main-header__item">
+                    <a class="{{#if activeLogin}}active{{/if}}" href="/login">Login</a>
+                </li>
+                {{else}}
+                <li class="main-header__item">
+                    <form action="/logout" method="POST">
+                    <button class='btn' type="submit">Logout</button>
+                    </form>
+                </li>
+                {{/unless}}
             </ul>
         </nav>
     </header>
