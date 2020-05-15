@@ -44,6 +44,9 @@
                 <li class="main-header__item">
                     <a class="{{#if activeLogin}}active{{/if}}" href="/login">Login</a>
                 </li>
+                <li class="main-header__item">
+                    <a class="{{#if activeSignup}}active{{/if}}" href="/signup">Signup</a>
+                </li>
                 {{else}}
                 <li class="main-header__item">
                     <form action="/logout" method="POST">

@@ -24,4 +24,14 @@ const postLogout = (req, res, next) => {
     res.redirect('/');
   });
 };
-module.exports = { getLogin, postLogin, postLogout };
+const getSignUp = (req, res, next) => {
+  res.render('auth/signup', {
+    pageTitle: 'Sign-Up',
+    path: '/signup',
+    loginCSS: true,
+    activeSignup: true,
+  });
+};
+
+const postSignUp = (req, res, next) => {};
+module.exports = { getLogin, postLogin, postLogout, getSignUp, postSignUp };
