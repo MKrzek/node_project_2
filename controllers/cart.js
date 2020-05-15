@@ -2,7 +2,8 @@ const Product = require('../models/product');
 const User = require('../models/user');
 
 const getCart = (req, res, next) => {
-  User.findById(req.user.id)
+  console.log('reqqq-user', req.user);
+  User.findById(req.user._id)
     .lean()
     .populate('cart.items.productId')
     .then(user => {
@@ -16,12 +17,14 @@ const getCart = (req, res, next) => {
         products: items,
         hasProducts: items.length > 0,
         cartCSS: true,
+        isAuthenticated: req.session.isLoggedIn,
       });
     });
 };
 
 const addToCart = (req, res, next) => {
   const { productId } = req.body;
+
   Product.findById(productId)
     .then(product => req.user.addToCart(product))
     .then(result => res.redirect('/cart'));
@@ -29,6 +32,7 @@ const addToCart = (req, res, next) => {
 
 const deleteCartProduct = (req, res, next) => {
   const { productId } = req.body;
+
   req.user
     .removeFromCart(productId)
     .then(() => {

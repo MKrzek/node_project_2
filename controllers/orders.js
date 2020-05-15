@@ -1,5 +1,4 @@
 const Order = require('../models/order');
-const User = require('../models/user');
 
 const createOrder = (req, res, next) => {
   req.user
@@ -11,7 +10,7 @@ const createOrder = (req, res, next) => {
         quantity: i.quantity,
         product: i.productId,
       }));
-      console.log('products', products);
+
       const order = new Order({
         user: {
           name: req.user.name,
@@ -19,7 +18,7 @@ const createOrder = (req, res, next) => {
         },
         products,
       });
-      console.log('order', order);
+
       return order.save();
     })
     .then(() => req.user.clearCart())
@@ -40,6 +39,7 @@ const getOrders = (req, res, next) => {
         orderCSS: true,
         hasOrders: orders.length > 0,
         orders,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch(err => console.log('err', err));
