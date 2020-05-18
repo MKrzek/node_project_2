@@ -8,15 +8,16 @@ const {
   saveEditProduct,
   deleteProduct,
 } = require('../controllers/admin');
+const isAuth = require('../middleware/is-auth');
 
 const adminRoutes = express.Router();
 
-adminRoutes.get('/add-product', getAddProduct);
+adminRoutes.get('/add-product', isAuth, getAddProduct);
 
-adminRoutes.post('/add-product', postAddProduct);
-adminRoutes.get('/edit-product/:productId', editProduct);
-adminRoutes.post('/edit-product', saveEditProduct);
-adminRoutes.get('/delete-product/:productId', deleteProduct);
-adminRoutes.get('/products', getAllProducts);
+adminRoutes.post('/add-product', isAuth, postAddProduct);
+adminRoutes.get('/edit-product/:productId', isAuth, editProduct);
+adminRoutes.post('/edit-product', isAuth, saveEditProduct);
+adminRoutes.get('/delete-product/:productId', isAuth, deleteProduct);
+adminRoutes.get('/products', isAuth, getAllProducts);
 
 module.exports = adminRoutes;
