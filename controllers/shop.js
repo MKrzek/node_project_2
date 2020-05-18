@@ -9,7 +9,7 @@ const getProducts = (req, res, next) => {
         products,
         pageTitle: 'All Products',
         path: '/products',
-        isAuthenticated: req.session.isLoggedIn,
+
         hasProducts: products && products.length > 0,
         activeProducts: true,
       });
@@ -21,7 +21,6 @@ const getIndex = (req, res, next) => {
     path: '/',
     pageTitle: 'Main Page',
     activeShop: true,
-    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
@@ -34,7 +33,6 @@ const getProductDetails = (req, res, next) => {
         pageTitle: product.title,
         path: '/products',
         product,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch(err => console.log('product-detail-error', err));

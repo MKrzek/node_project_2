@@ -39,7 +39,6 @@ const getOrders = (req, res, next) => {
         orderCSS: true,
         hasOrders: orders.length > 0,
         orders,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch(err => console.log('err', err));

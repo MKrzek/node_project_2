@@ -17,7 +17,6 @@ const getCart = (req, res, next) => {
         products: items,
         hasProducts: items.length > 0,
         cartCSS: true,
-        isAuthenticated: req.session.isLoggedIn,
       });
     });
 };

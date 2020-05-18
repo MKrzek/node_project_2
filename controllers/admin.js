@@ -22,7 +22,6 @@ const getAddProduct = (req, res, next) => {
     path: '/admin/add-product',
     productCSS: true,
     activeAddProduct: true,
-    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
@@ -60,7 +59,6 @@ const editProduct = (req, res, next) => {
         path: '/admin/edit-product',
         productCSS: true,
         product,
-        isAuthenticated: req.session.isLoggedIn,
       });
     });
 };
