@@ -34,10 +34,11 @@
     background: white;
     border-radius: 3px;
     cursor: pointer;
-    padding:1.5rem;
+    padding:1rem, 2rem;
+
     font-size: 2rem;
 }
-button:hover,
-button:active{
+.button:hover,
+.button:active{
     background-color: darkseagreen;
 }

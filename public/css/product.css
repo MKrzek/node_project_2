@@ -29,18 +29,18 @@
     border-radius: 2px;
 }
 
-button{
+.button{
     font: inherit;
     border: 3px solid darkseagreen;
     color: dodgerblue;
     background: white;
     border-radius: 3px;
     cursor: pointer;
-    padding:1.5rem;
+    padding: 1.5rem;
     font-size: 2rem;
 }
-button:hover,
-button:active{
+.button:hover,
+.button:active{
     background-color: darkseagreen;
 }
 

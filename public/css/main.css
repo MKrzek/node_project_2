@@ -140,6 +140,26 @@ main{
   text-align: center;
 }
 
+.user-message{
+  margin: auto;
+  width: 80%;
+  border: 1px solid blue;
+  padding: 1rem;
+  border-radius: 3px;;
+  background-color: skyblue;
+  text-align: center;
+}
+
+.user-message--error{
+  border-color: red;
+  background-color: lightcoral;
+
+}
+
+
+
+
+
 /* responsive styles */
 .mobile-nav {
   width: 30rem;
