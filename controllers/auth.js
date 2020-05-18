@@ -5,16 +5,19 @@ const getLogin = (req, res, next) => {
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
+    errorMessage: req.flash('error'),
     activeLogin: true,
     loginCSS: true,
-    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
 const postLogin = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email }).then(user => {
-    if (!user) return res.redirect('/login');
+    if (!user) {
+      req.flash('error', 'Invalid email or password');
+      return res.redirect('/login');
+    }
     bcrypt
       .compare(password, user.password)
       .then(matchFound => {
@@ -44,7 +47,6 @@ const getSignUp = (req, res, next) => {
     path: '/signup',
     loginCSS: true,
     activeSignup: true,
-    isAuthenticated: false,
   });
 };
 
