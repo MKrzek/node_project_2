@@ -20,10 +20,11 @@
     {{#if isAuthenticated}}
       <div class="card__actions">
         <form action="/cart" method="POST">
+          <input type="hidden" name="_csrf" value={{csrfToken}} />
           <button class="btn">
             Add to Cart
           </button>
-          <input type="hidden" name="productId" value={{product.id}} />
+          <input type="hidden" name="productId" value={{product._id}} />
         </form>
       </div>
     {{/if}}

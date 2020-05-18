@@ -2,6 +2,7 @@
   <h1>
     {{pageTitle}}
   </h1>
+
   {{#if hasProducts}}
     <div class="grid">
       {{#each products}}
@@ -27,9 +28,11 @@
             <a href="/products/{{this._id}}" class="btn">
               Details
             </a>
-            {{log "isAuth" ../isAuthenticated}}
+
             {{#if ../isAuthenticated}}
               <form action="/cart" method="POST">
+
+              <input type="hidden" name="_csrf" value={{../csrfToken}} />
                 <button class="btn">
                   Add to Cart
                 </button>
