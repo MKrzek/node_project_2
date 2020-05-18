@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{csrfToken}}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{pageTitle}}</title>
     <link rel="stylesheet" href="/css/main.css">
@@ -39,6 +40,7 @@
                 {{/if}}
 
             </ul>
+
             <ul class="main-header__item-list">
             {{#unless isAuthenticated}}
                 <li class="main-header__item">
@@ -48,9 +50,11 @@
                     <a class="{{#if activeSignup}}active{{/if}}" href="/signup">Signup</a>
                 </li>
                 {{else}}
+
                 <li class="main-header__item">
                     <form action="/logout" method="POST">
-                     <input type="hidden" name="_csrf" value={{csrfToken}}/>
+
+                     <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
                     <button class='btn' type="submit">Logout</button>
                     </form>
                 </li>
