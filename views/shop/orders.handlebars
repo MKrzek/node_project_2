@@ -1,5 +1,4 @@
 <main>
-  {{log "orders" orders}}
   {{#unless hasOrders}}
     <h1>
       No Orders Yet
@@ -14,7 +13,6 @@
           </h1>
           <ul class="orders__products">
             {{#each this.products}}
-              {{log "this" this}}
               <li class="order__products-item">
                 {{this.product.title}}
                 qty:
