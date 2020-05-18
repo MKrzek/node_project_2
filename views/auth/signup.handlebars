@@ -1,26 +1,33 @@
 <body>
-  <form class="login-form" action="/signup" method="POST">
-    <input type="hidden" name="_csrf" value={{csrfToken}} />
-    <div class="form-control">
-      <label for="email">
-        E-mail
-      </label>
-      <input id="e-mail" type="text" name="email" />
-    </div>
-    <div class="form-control">
-      <label for="password">
-        Password
-      </label>
-      <input id="password" type="password" name="password" />
-    </div>
-    <div class="form-control">
-      <label for="confirmPassword">
-        Confirm Password
-      </label>
-      <input id="confirmPassword" type="password" name="confirmPassword" />
-    </div>
-    <button class="button" type="submit">
-      SignUp
-    </button>
-  </form>
+  <main>
+    {{#if errorMessage}}
+      <div class="user-message user-message--error">
+        {{errorMessage}}
+      </div>
+    {{/if}}
+    <form class="login-form" action="/signup" method="POST">
+      <input type="hidden" name="_csrf" value={{csrfToken}} />
+      <div class="form-control">
+        <label for="email">
+          E-mail
+        </label>
+        <input id="email" type="text" name="email" />
+      </div>
+      <div class="form-control">
+        <label for="password">
+          Password
+        </label>
+        <input id="password" type="password" name="password" />
+      </div>
+      <div class="form-control">
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+        <input id="confirmPassword" type="password" name="confirmPassword" />
+      </div>
+      <button class="button" type="submit">
+        SignUp
+      </button>
+    </form>
+  </main>
 </body>
