@@ -36,7 +36,7 @@ router.post(
       .isEmail()
       .normalizeEmail()
       .withMessage('Please enter a valid email')
-      .custom((value, { req }) =>
+      .custom(value =>
         User.findOne({ email: value }).then(user => {
           if (user) {
             console.log('ussssss', user);
@@ -57,10 +57,13 @@ router.post(
 
     body('confirmPassword')
       .trim()
+      .isAlphanumeric()
       .custom((value, { req }) => {
+        console.log('value', value, req.body.password);
         if (value !== req.body.password) {
           throw new Error('Passwords have to match!');
         }
+        return true;
       }),
   ],
   postSignUp
