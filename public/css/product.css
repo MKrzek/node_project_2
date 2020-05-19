@@ -28,6 +28,9 @@
     font:inherit;
     border-radius: 2px;
 }
+.form-control input.invalid{
+    border-color: red
+}
 
 .button{
     font: inherit;
