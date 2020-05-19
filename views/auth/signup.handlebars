@@ -11,19 +11,31 @@
         <label for="email">
           E-mail
         </label>
-        <input id="email" type="text" name="email" />
+        <input class="{{#if validationStyles.email}} invalid{{/if}}" id="email" type="text" name="email" value="{{oldInput.email}}" />
       </div>
       <div class="form-control">
         <label for="password">
           Password
         </label>
-        <input id="password" type="password" name="password" />
+        <input
+          class="{{#if validationStyles.password}} invalid{{/if}}"
+          id="password"
+          type="password"
+          name="password"
+          value="{{oldInput.password}}"
+        />
       </div>
       <div class="form-control">
         <label for="confirmPassword">
           Confirm Password
         </label>
-        <input id="confirmPassword" type="password" name="confirmPassword" />
+        <input
+          class="{{#if validationStyles.confirmPassword}} invalid{{/if}}"
+          id="confirmPassword"
+          type="password"
+          name="confirmPassword"
+          value="{{oldInput.confirmPassword}}"
+        />
       </div>
       <button class="button" type="submit">
         SignUp
