@@ -59,7 +59,6 @@ router.post(
       .trim()
       .isAlphanumeric()
       .custom((value, { req }) => {
-        console.log('value', value, req.body.password);
         if (value !== req.body.password) {
           throw new Error('Passwords have to match!');
         }

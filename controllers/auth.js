@@ -127,7 +127,6 @@ const postSignUp = (req, res, next) => {
   const { email, password, confirmPassword } = req.body;
 
   const errors = validationResult(req);
-  console.log(errors.mapped());
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/signup', {
       path: '/signup',
