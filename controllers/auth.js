@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sgMail = require('@sendgrid/mail');
+const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const User = require('../models/user');
 const {
@@ -77,40 +78,39 @@ const getSignUp = (req, res, next) => {
 };
 
 const postSignUp = (req, res, next) => {
-  const { email, password, confirmPassword } = req.body;
-  User.findOne({ email })
-    .then(user => {
-      if (user) {
-        req.flash(
-          'error',
-          'This email already exists, please pick a different email'
-        );
-        return res.redirect('/signup');
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then(hashedPassword => {
-          const newUser = new User({
-            email,
-            password: hashedPassword,
-            cart: { items: [] },
+  const { email, password } = req.body;
+  const errors = validationResult(req);
+  console.log('errrors-sign-up', errors);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/signup', {
+      path: '/signup',
+      pageTitle: 'Sign-Up',
+      errorMessage: errors.array()[0].msg,
+      loginCSS: true,
+      activeSignup: true,
+    });
+  }
+  return bcrypt
+    .hash(password, 12)
+    .then(hashedPassword => {
+      const newUser = new User({
+        email,
+        password: hashedPassword,
+        cart: { items: [] },
+      });
+      return newUser
+        .save()
+        .then(() => {
+          res.redirect('/login');
+          return sgMail.send({
+            to: email,
+            from: 'shop@node-complete.com',
+            subject: 'Sign-up has been successful',
+            html: '<h1>You have successfully signed up</h1>',
           });
-          return newUser
-            .save()
-            .then(() => {
-              res.redirect('/login');
-              return sgMail.send({
-                to: email,
-                from: 'shop@node-complete.com',
-                subject: 'Sign-up has been successful',
-                html: '<h1>You have successfully signed up</h1>',
-              });
-            })
-            .catch(err => console.log('err', err));
         })
         .catch(err => console.log('err', err));
     })
-
     .catch(err => console.log('err', err));
 };
 
@@ -175,8 +175,7 @@ const getNewPassword = (req, res, next) => {
 
 const saveNewPassword = (req, res, next) => {
   const { password, userId, resetToken } = req.body;
-  console.log('req.body', req.body);
-  console.log('newwwww', password, userId, resetToken);
+
   let resetUser;
 
   User.findOne({
