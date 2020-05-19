@@ -1,34 +1,54 @@
 <body>
   <main>
+    {{log "prodyct" product}}
+    {{#if errorMessage}}
+      <div class="user-message user-message--error">
+        {{errorMessage}}
+      </div>
+    {{/if}}
     <form class="product-form" action="/admin/add-product" method="POST">
       <div class="form-control">
         <label for="title">
           Title
         </label>
-        <input id="title" type="text" name="title" />
+        <input
+        class="{{#if validationStyles.title}} invalid{{/if}}"
+        value="{{product.title}}" id="title" type="text" name="title" />
       </div>
       <div class="form-control">
         <label for="price">
           Price
         </label>
-        <input id="price" type="number" name="price" step="0.01" />
+        <input
+          class="{{#if validationStyles.price}} invalid{{/if}}"
+          value="{{product.price}}"
+          id="price"
+          type="number"
+          name="price"
+          step="0.01"
+        />
       </div>
       <div class="form-control">
         <label for="imageURL">
           Image
         </label>
-        <input id="image" type="text" name="imageURL" />
+        <input
+          class="{{#if validationStyles.imageURL}} invalid{{/if}}"
+          value="{{product.imageURL}}"
+          id="imageURL"
+          type="text"
+          name="imageURL"
+        />
       </div>
       <div class="form-control">
         <label for="description">
           Description
         </label>
         <textarea
-          id="description"
-          type="text"
-          name="description"
-          rows="5"
-        ></textarea>
+          class="{{#if validationStyles.description}} invalid{{/if}}"
+          id="description" type="text" name="description" rows="5">
+          {{product.description}}
+        </textarea>
       </div>
       <input type="hidden" name="_csrf" value={{csrfToken}} />
       <button class="submit-button" type="submit">
