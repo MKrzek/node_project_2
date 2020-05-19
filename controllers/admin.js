@@ -1,8 +1,7 @@
 const Product = require('../models/product');
 
 const getAllProducts = (req, res, next) => {
-  Product.find()
-    .populate('userId')
+  Product.find({ userId: req.user._id })
     .lean()
     .then(products => {
       res.render('admin/products', {
@@ -65,22 +64,26 @@ const editProduct = (req, res, next) => {
 
 const saveEditProduct = (req, res, next) => {
   const { productId, title, price, imageURL, description } = req.body;
-  Product.update(
-    { _id: productId },
-    {
-      title,
-      price,
-      imageURL,
-      description,
-    }
-  ).then(result => {
-    res.redirect('/admin/products');
-  });
+  Product.findById(productId)
+    .then(product => {
+      if (product.userId.toString() !== req.user._id.toString()) {
+        return res.redirect('/');
+      }
+      Product.update(
+        {
+          _id: productId,
+        },
+        { title, price, imageURL, description }
+      ).then(result => {
+        res.redirect('/admin/products');
+      });
+    })
+    .catch(err => console.log('err-did-not-find product', err));
 };
 
 const deleteProduct = (req, res, next) => {
   const { productId } = req.params;
-  Product.findByIdAndDelete(productId).then(() =>
+  Product.deleteOne({ _id: productId, userId: req.user._id }).then(() =>
     res.redirect('/admin/products')
   );
 };
