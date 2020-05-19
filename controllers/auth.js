@@ -1,17 +1,26 @@
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
+const sgMail = require('@sendgrid/mail');
 const crypto = require('crypto');
 const User = require('../models/user');
+const {
+  SENDGRID_API_KEY,
+  // MAIL_HOST,
+  // MAIL_PASSWORD,
+  // MAIL_PORT,
+  // MAIL_USER,
+} = require('../.env');
 
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        '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',
-    },
-  })
-);
+// const transport = nodemailer.createTransport({
+//   host: MAIL_HOST,
+//   port: MAIL_PORT,
+//   auth: {
+//     user: MAIL_USER,
+//     pass: MAIL_PASSWORD,
+//   },
+// });
+
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 const getLogin = (req, res, next) => {
   const message = req.flash('error');
@@ -90,7 +99,7 @@ const postSignUp = (req, res, next) => {
             .save()
             .then(() => {
               res.redirect('/login');
-              return transporter.sendMail({
+              return sgMail.send({
                 to: email,
                 from: 'shop@node-complete.com',
                 subject: 'Sign-up has been successful',
@@ -132,7 +141,8 @@ const postReset = (req, res, next) => {
       })
       .then(result => {
         res.redirect('/');
-        transporter.sendMail({
+        console.log('got-user', result);
+        sgMail.send({
           to: email,
           from: 'shop@node-complete.com',
           subject: 'Password Reset',
@@ -165,6 +175,7 @@ const getNewPassword = (req, res, next) => {
 
 const saveNewPassword = (req, res, next) => {
   const { password, userId, resetToken } = req.body;
+  console.log('req.body', req.body);
   console.log('newwwww', password, userId, resetToken);
   let resetUser;
 
@@ -181,7 +192,12 @@ const saveNewPassword = (req, res, next) => {
       resetUser.password = hashedPassword;
       resetUser.resetToken = null;
       resetUser.resetTokenExpiration = undefined;
-      return resetUser.save();
+      return resetUser
+        .save()
+        .then(() => {
+          res.redirect('/login');
+        })
+        .catch(err => console.log('err', err));
     })
     .catch(err => console.log('err', err));
 };
