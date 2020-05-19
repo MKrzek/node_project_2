@@ -42,3 +42,6 @@
 .button:active{
     background-color: darkseagreen;
 }
+.form-control input.invalid{
+    border-color: red
+}
