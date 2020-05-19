@@ -16,7 +16,17 @@ const {
 
 const router = express.Router();
 router.get('/login', getLogin);
-router.post('/login', postLogin);
+router.post(
+  '/login',
+  [
+    body('email')
+      .isEmail()
+      .withMessage('Please enter a valid email'),
+
+    body('password', 'Password has to be valid').isLength({ min: 2 }),
+  ],
+  postLogin
+);
 router.post('/logout', postLogout);
 router.get('/signup', getSignUp);
 router.post(
@@ -24,6 +34,7 @@ router.post(
   [
     check('email')
       .isEmail()
+      .normalizeEmail()
       .withMessage('Please enter a valid email')
       .custom((value, { req }) =>
         User.findOne({ email: value }).then(user => {
@@ -41,13 +52,16 @@ router.post(
       'Please enter a password with only numbers and letters, and at least 5 characters'
     )
       .isLength({ min: 5 })
+      .trim()
       .isAlphanumeric(),
 
-    body('confirmPassword').custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Passwords have to match!');
-      }
-    }),
+    body('confirmPassword')
+      .trim()
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error('Passwords have to match!');
+        }
+      }),
   ],
   postSignUp
 );
