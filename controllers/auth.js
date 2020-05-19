@@ -32,15 +32,42 @@ const getLogin = (req, res, next) => {
     errorMessage: message,
     activeLogin: true,
     loginCSS: true,
+    oldInput: {
+      email: '',
+      password: '',
+    },
   });
 };
 
 const postLogin = (req, res, next) => {
   const { email, password } = req.body;
+  console.log('email', email, password);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      path: '/login',
+      pageTitle: 'Login',
+      errorMessage: errors.array()[0].msg,
+      activeLogin: true,
+      loginCSS: true,
+      validationStyles: errors.mapped(),
+      oldInput: { email, password },
+    });
+  }
   User.findOne({ email }).then(user => {
     if (!user) {
-      req.flash('error', 'Invalid email or password');
-      return res.redirect('/login');
+      return res.status(422).render('auth/login', {
+        path: '/login',
+        pageTitle: 'Login',
+        errorMessage: 'Invalid email or password',
+        activeLogin: true,
+        loginCSS: true,
+        validationStyles: { email: '', password: '' },
+        oldInput: {
+          email,
+          password,
+        },
+      });
     }
     bcrypt
       .compare(password, user.password)
@@ -50,8 +77,21 @@ const postLogin = (req, res, next) => {
           req.session.user = user;
           return req.session.save(err => res.redirect('/'));
         }
-        req.flash('error', 'Invalid email or password');
-        res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          path: '/login',
+          pageTitle: 'Login',
+          errorMessage: 'Invalid email or password',
+          activeLogin: true,
+          loginCSS: true,
+          validationStyles: {
+            email: '',
+            password: '',
+          },
+          oldInput: {
+            email,
+            password,
+          },
+        });
       })
       .catch(err => {
         console.log('err', err);
@@ -74,13 +114,20 @@ const getSignUp = (req, res, next) => {
     loginCSS: true,
     errorMessage: message,
     activeSignup: true,
+    oldInput: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationStyles: [],
   });
 };
 
 const postSignUp = (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, confirmPassword } = req.body;
+
   const errors = validationResult(req);
-  console.log('errrors-sign-up', errors);
+  console.log(errors.mapped());
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/signup', {
       path: '/signup',
@@ -88,6 +135,8 @@ const postSignUp = (req, res, next) => {
       errorMessage: errors.array()[0].msg,
       loginCSS: true,
       activeSignup: true,
+      oldInput: { email, password, confirmPassword },
+      validationStyles: errors.mapped(),
     });
   }
   return bcrypt
