@@ -5,7 +5,7 @@
         {{errorMessage}}
       </div>
     {{/if}}
-    <form class="product-form" action="/admin/add-product" method="POST">
+    <form class="product-form" action="/admin/add-product" method="POST" enctype="multipart/form-data">
       <div class="form-control">
         <label for="title">
           Title
@@ -28,15 +28,13 @@
         />
       </div>
       <div class="form-control">
-        <label for="imageURL">
+        <label for="image">
           Image
         </label>
         <input
-          class="{{#if validationStyles.imageURL}} invalid{{/if}}"
-          value="{{product.imageURL}}"
-          id="imageURL"
-          type="text"
-          name="imageURL"
+          id="image"
+          type="file"
+          name="image"
         />
       </div>
       <div class="form-control">

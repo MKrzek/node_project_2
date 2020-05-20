@@ -21,7 +21,6 @@ adminRoutes.post(
     body('title')
       .isLength({ min: 3 })
       .trim(),
-    body('imageURL').isURL(),
     body('price').isNumeric(),
     body('description')
       .isLength({ min: 5 })
@@ -37,7 +36,6 @@ adminRoutes.post(
     body('title')
       .isLength({ min: 3 })
       .trim(),
-    body('imageURL').isURL(),
     body('price').isNumeric(),
     body('description')
       .isLength({ min: 5 })

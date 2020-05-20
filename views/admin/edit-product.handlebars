@@ -6,7 +6,7 @@
         {{errorMessage}}
       </div>
     {{/if}}
-    <form class="product-form" action="/admin/edit-product" method="POST">
+    <form class="product-form" action="/admin/edit-product" method="POST" enctype="multipart/form-data">
       <div class="form-control">
         <label for="title">
           Title
@@ -32,16 +32,10 @@
         />
       </div>
       <div class="form-control">
-        <label for="imageURL">
+        <label for="image">
           Image
         </label>
-        <input
-           class="{{#if validationStyles.imageURL}} invalid{{/if}}"
-          id="image"
-          type="text"
-          name="imageURL"
-          value="{{product.imageURL}}"
-        />
+        <input id="image" type="file" name="image" />
       </div>
       <div class="form-control">
         <label for="description">
