@@ -9,7 +9,6 @@ const getCart = (req, res, next) => {
       const {
         cart: { items },
       } = user;
-      console.log('items', items);
       res.render('shop/cart', {
         pageTitle: 'Your Cart',
         activeCart: true,

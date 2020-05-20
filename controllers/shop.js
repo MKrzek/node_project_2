@@ -4,7 +4,6 @@ const getProducts = (req, res, next) => {
   Product.find()
     .lean()
     .then(products => {
-      console.log('prducts', products);
       res.render('shop/product-list', {
         products,
         pageTitle: 'All Products',

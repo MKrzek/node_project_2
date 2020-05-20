@@ -41,7 +41,6 @@ const getLogin = (req, res, next) => {
 
 const postLogin = (req, res, next) => {
   const { email, password } = req.body;
-  console.log('email', email, password);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/login', {
@@ -93,10 +92,7 @@ const postLogin = (req, res, next) => {
           },
         });
       })
-      .catch(err => {
-        console.log('err', err);
-        return res.redirect('/login');
-      });
+      .catch(err => res.redirect('/login'));
   });
 };
 
@@ -181,7 +177,6 @@ const getReset = (req, res, next) => {
 };
 const postReset = (req, res, next) => {
   const { email } = req.body;
-  console.log('reseteiamil', email);
   crypto.randomBytes(32, (err, buffer) => {
     if (err) return res.redirect('/password-reset');
     const token = buffer.toString('hex');
@@ -197,7 +192,6 @@ const postReset = (req, res, next) => {
       })
       .then(result => {
         res.redirect('/');
-        console.log('got-user', result);
         sgMail.send({
           to: email,
           from: 'shop@node-complete.com',
