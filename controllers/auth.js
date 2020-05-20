@@ -157,9 +157,17 @@ const postSignUp = (req, res, next) => {
             html: '<h1>You have successfully signed up</h1>',
           });
         })
-        .catch(err => console.log('err', err));
+        .catch(err => {
+          const error = new Error();
+          error.httpStatusCode = 500;
+          return next(error);
+        });
     })
-    .catch(err => console.log('err', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 const getReset = (req, res, next) => {
@@ -199,7 +207,11 @@ const postReset = (req, res, next) => {
           `,
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        const error = new Error();
+        error.httpStatusCode = 500;
+        return next(error);
+      });
   });
 };
 
@@ -218,7 +230,11 @@ const getNewPassword = (req, res, next) => {
         passwordToken: resetToken,
       });
     })
-    .catch(err => console.log('err', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 const saveNewPassword = (req, res, next) => {
@@ -244,9 +260,17 @@ const saveNewPassword = (req, res, next) => {
         .then(() => {
           res.redirect('/login');
         })
-        .catch(err => console.log('err', err));
+        .catch(err => {
+          const error = new Error();
+          error.httpStatusCode = 500;
+          return next(error);
+        });
     })
-    .catch(err => console.log('err', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 module.exports = {

@@ -35,7 +35,11 @@ const getProductDetails = (req, res, next) => {
         product,
       });
     })
-    .catch(err => console.log('product-detail-error', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 module.exports = { getProducts, getIndex, getProductDetails };

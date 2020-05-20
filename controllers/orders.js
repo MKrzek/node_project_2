@@ -23,7 +23,11 @@ const createOrder = (req, res, next) => {
     })
     .then(() => req.user.clearCart())
     .then(() => res.redirect('/orders'))
-    .catch(err => console.log('order-error', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 const getOrders = (req, res, next) => {
@@ -41,7 +45,11 @@ const getOrders = (req, res, next) => {
         orders,
       });
     })
-    .catch(err => console.log('err', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 module.exports = { getOrders, createOrder };

@@ -13,6 +13,11 @@ const getAllProducts = (req, res, next) => {
         activeAdminProduct: true,
         isAuthenticated: req.session.isLoggedIn,
       });
+    })
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -55,11 +60,12 @@ const postAddProduct = (req, res, next) => {
   product
     .save()
     .then(() => {
-      console.log('Created Product');
       res.redirect('/admin/products');
     })
     .catch(err => {
-      console.log('err', err);
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -78,6 +84,11 @@ const editProduct = (req, res, next) => {
         errorMessage: null,
         product,
       });
+    })
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -113,18 +124,26 @@ const saveEditProduct = (req, res, next) => {
           _id: productId,
         },
         { title, price, imageURL, description }
-      ).then(result => {
+      ).then(() => {
         res.redirect('/admin/products');
       });
     })
-    .catch(err => console.log('err-did-not-find product', err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 const deleteProduct = (req, res, next) => {
   const { productId } = req.params;
-  Product.deleteOne({ _id: productId, userId: req.user._id }).then(() =>
-    res.redirect('/admin/products')
-  );
+  Product.deleteOne({ _id: productId, userId: req.user._id })
+    .then(() => res.redirect('/admin/products'))
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 module.exports = {

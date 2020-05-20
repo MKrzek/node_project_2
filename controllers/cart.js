@@ -2,7 +2,6 @@ const Product = require('../models/product');
 const User = require('../models/user');
 
 const getCart = (req, res, next) => {
-  console.log('reqqq-user', req.user);
   User.findById(req.user._id)
     .lean()
     .populate('cart.items.productId')
@@ -26,7 +25,12 @@ const addToCart = (req, res, next) => {
 
   Product.findById(productId)
     .then(product => req.user.addToCart(product))
-    .then(result => res.redirect('/cart'));
+    .then(result => res.redirect('/cart'))
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 const deleteCartProduct = (req, res, next) => {
@@ -37,7 +41,11 @@ const deleteCartProduct = (req, res, next) => {
     .then(() => {
       res.redirect('/cart');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error();
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 module.exports = { getCart, addToCart, deleteCartProduct };
