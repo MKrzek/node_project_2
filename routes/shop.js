@@ -9,8 +9,8 @@ const {
   addToCart,
   deleteCartProduct,
 } = require('../controllers/cart');
-const getCheckout = require('../controllers/checkout');
-const { getOrders, createOrder } = require('../controllers/orders');
+// const getCheckout = require('../controllers/checkout');
+const { getOrders, createOrder, getInvoice } = require('../controllers/orders');
 const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
@@ -25,5 +25,6 @@ router.post('/cart-delete-item', isAuth, deleteCartProduct);
 // router.get('/checkout', getCheckout);
 router.get('/orders', isAuth, getOrders);
 router.post('/create-order', isAuth, createOrder);
+router.get('/orders/:orderId', isAuth, getInvoice);
 
 module.exports = router;

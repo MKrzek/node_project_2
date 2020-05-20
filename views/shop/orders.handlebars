@@ -15,8 +15,10 @@
             {{#each this.products}}
               <li class="order__products-item">
                 {{this.product.title}}
-                qty:
-                {{this.quantity}}
+                -
+                <a href="/orders/{{../this._id}}">
+                  Invoice
+                </a>
               </li>
             {{/each}}
           </ul>
