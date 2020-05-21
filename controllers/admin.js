@@ -1,24 +1,43 @@
 const { validationResult } = require('express-validator');
 const Product = require('../models/product');
 
+const ITEMS_PER_PAGE = 1;
+
 const getAllProducts = (req, res, next) => {
+  const page = req.query.page || 1;
+  let totalItems;
+
   Product.find({ userId: req.user._id })
-    .lean()
+    .countDocuments()
+    .then(numProducts => {
+      totalItems = numProducts;
+      return Product.find()
+        .lean()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
     .then(products => {
       res.render('admin/products', {
         products,
-        pageTitle: 'Admin Products',
+        pageTitle: 'All Products',
         path: '/admin/products',
-        hasProducts: products.length > 0,
+        hasProducts: products && products.length > 0,
         activeAdminProduct: true,
-        isAuthenticated: req.session.isLoggedIn,
+        currentPage: page,
+
+        totalItems,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: parseInt(page) + 1,
+        prevPage: parseInt(page) - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+        comp1: parseInt(page) !== 1,
+        comp2: parseInt(page) - 1 !== 1,
+        comp3: Math.ceil(totalItems / ITEMS_PER_PAGE) !== parseInt(page),
+        comp4: parseInt(page) + 1 !== Math.ceil(totalItems / ITEMS_PER_PAGE),
       });
     })
-    .catch(err => {
-      const error = new Error();
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    .catch(err => console.log('err', err));
 };
 
 const getAddProduct = (req, res, next) => {

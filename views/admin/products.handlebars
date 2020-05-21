@@ -34,6 +34,19 @@
         </article>
       {{/each}}
     </div>
+    {{> pagination
+      comp1 = comp1
+      comp2 = comp2
+      comp3 = comp3
+      comp4 = comp4
+      prevPage =  prevPage
+      currentPage = currentPage
+      nextPage = nextPage
+      lastPage = lastPage
+      hasNextPage = hasNextPage
+      hasPreviousPage = hasPreviousPage
+      }}
+
   {{else}}
     <h1>
       No Products found

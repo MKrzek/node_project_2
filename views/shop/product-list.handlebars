@@ -43,10 +43,18 @@
         </article>
       {{/each}}
     </div>
-    <section class='pagination'>
-      <a href="/products/?page=1">1</a>
-      <a href="/products/?page=2">2</a>
-    </section>
+    {{> pagination
+    comp1 = comp1
+    comp2 = comp2
+    comp3 = comp3
+    comp4 = comp4
+    prevPage =  prevPage
+    currentPage = currentPage
+    nextPage = nextPage
+    lastPage = lastPage
+    hasNextPage = hasNextPage
+    hasPreviousPage = hasPreviousPage
+    }}
   {{else}}
     <h1>
       No Products found
