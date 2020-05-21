@@ -4,22 +4,7 @@ const sgMail = require('@sendgrid/mail');
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const User = require('../models/user');
-const {
-  SENDGRID_API_KEY,
-  // MAIL_HOST,
-  // MAIL_PASSWORD,
-  // MAIL_PORT,
-  // MAIL_USER,
-} = require('../.env');
-
-// const transport = nodemailer.createTransport({
-//   host: MAIL_HOST,
-//   port: MAIL_PORT,
-//   auth: {
-//     user: MAIL_USER,
-//     pass: MAIL_PASSWORD,
-//   },
-// });
+const { SENDGRID_API_KEY } = require('../.env');
 
 sgMail.setApiKey(SENDGRID_API_KEY);
 
