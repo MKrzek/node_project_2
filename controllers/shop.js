@@ -1,7 +1,13 @@
 const Product = require('../models/product');
 
+const ITEMS_PER_PAGE = 2;
+
 const getProducts = (req, res, next) => {
+  const { page } = req.query;
+
   Product.find()
+    .skip((page - 1) * ITEMS_PER_PAGE)
+    .limit(ITEMS_PER_PAGE)
     .lean()
     .then(products => {
       res.render('shop/product-list', {
