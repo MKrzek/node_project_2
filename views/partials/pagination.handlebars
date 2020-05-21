@@ -1,0 +1,25 @@
+<section class="pagination">
+  {{#and comp1 comp2}}
+    <a href="?page=1">
+      1
+    </a>
+  {{/and}}
+  {{#if hasPreviousPage}}
+    <a class="active" href="?page={{prevPage}}">
+      {{prevPage}}
+    </a>
+  {{/if}}
+  <a class="active" href="?page={{currentPage}}">
+    {{currentPage}}
+  </a>
+  {{#if hasNextPage}}
+    <a href="?page={{nextPage}}">
+      {{nextPage}}
+    </a>
+  {{/if}}
+  {{#and comp3 comp4}}
+    <a href="?page={{lastPage}}">
+      {{lastPage}}
+    </a>
+  {{/and}}
+</section>
