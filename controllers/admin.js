@@ -19,7 +19,7 @@ const getAllProducts = (req, res, next) => {
     .then(products => {
       res.render('admin/products', {
         products,
-        pageTitle: 'All Products',
+        pageTitle: 'Admin Products Panel',
         path: '/admin/products',
         hasProducts: products && products.length > 0,
         activeAdminProduct: true,
