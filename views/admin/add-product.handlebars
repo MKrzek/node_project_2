@@ -1,9 +1,14 @@
 <body>
   <main>
+
     {{#if errorMessage}}
       <div class="user-message user-message--error">
         {{errorMessage}}
       </div>
+      {{else}}
+        <h1>
+          {{pageTitle}}
+        </h1>
     {{/if}}
     <form class="product-form" action="/admin/add-product" method="POST" enctype="multipart/form-data">
       <div class="form-control">
@@ -48,7 +53,7 @@
         </textarea>
       </div>
       <input type="hidden" name="_csrf" value={{csrfToken}} />
-      <button class="submit-button" type="submit">
+      <button class="btn" type="submit">
         Add product
       </button>
     </form>
