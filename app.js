@@ -8,6 +8,7 @@ const multer = require('multer');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const expressHbs = require('express-handlebars');
+const helpers = require('handlebars-helpers');
 
 const User = require('./models/user');
 const adminRoutes = require('./routes/admin');
@@ -51,6 +52,7 @@ const csrfProtection = csrf();
 app.engine(
   'handlebars',
   expressHbs({
+    helpers: helpers(),
     allowProtoMethodsByDefault: true,
     allowProtoPropertiesByDefault: true,
     defaultLayout: 'main',
@@ -102,7 +104,12 @@ app.get('/500', get500);
 
 app.use(get404);
 app.use((error, req, res, next) => {
-  res.redirect('/500');
+  console.log('err', error);
+  res.status(500).render('/500', {
+    pageTitle: 'Error!',
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn,
+  });
 });
 
 // mongoConnect(() => {
